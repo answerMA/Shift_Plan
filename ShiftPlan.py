@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 def getHTML():
-    base_url = 'http://workit.nnitcorp.com/Departments/086-0961/Middleware/Shared%20Documents/Forms/AllItems.aspx?'
+    base_url = 'http://shift_Plan_web_site?'
     data = {
         'RootFolder': '/Departments/086-0961/Middleware/Shared Documents/Teamet',
         'FolderCTID': '0x012000AB0EFC565D555D4D91F529154D3A4370',
