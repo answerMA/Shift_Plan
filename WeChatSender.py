@@ -14,6 +14,8 @@ import ShiftPlan
 import logging
 import AX
 import time
+import random
+
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -40,6 +42,11 @@ def get_response(msg):  # 添加一个图灵机器人作为回答文本消息
         return
 
 
+def sleepRandom():
+    ran = random.randint(2, 7)
+    time.sleep(ran)
+
+
 def get_shiftplan():  # 获取排班表更新细节
     data = ShiftPlan.ReadFromJson(PATH)
     return u'排班表由 {0} 在 {1} 更新'.format(data['author'], data['time'])
@@ -57,6 +64,7 @@ def auto_send_message(msg):
     if msg['Text'] == u'排班表':
         name = msg['FromUserName']
         str = get_shiftplan()
+        sleepRandom()
         itchat.send_file(fileDir=r'.\files\Shiftplan24_7_v1.xls', toUserName=name)
         return str
     elif msg['Text'] == 'EXIT!':
@@ -64,8 +72,10 @@ def auto_send_message(msg):
     elif msg['Text'] == 'AX':
         name = msg['FromUserName']
         AX_result = AX.respone_isFriday()
+        sleepRandom()
         itchat.send(AX_result, toUserName=name)
         AX_result = AX.response_isMonthDeadline()
+        sleepRandom()
         itchat.send(AX_result, toUserName=name)
     else:
         return reply or defaultReply
@@ -91,12 +101,12 @@ def send_AX():
     names = get_contact()
     if AX.isFriday():
         for name in names:
-            time.sleep(1)
+            sleepRandom()
             itchat.send(u'今天是礼拜五，请及时注 AX !', toUserName=name)
             logging.info('AX_Friday 已群发')
     elif AX.isMonthDeadline():
         for name in names:
-            time.sleep(1)
+            sleepRandom()
             itchat.send(u'今天是月结日，请及时注 AX !', toUserName=name)
             logging.info('AX_Month_Deadline 已群发')
 
